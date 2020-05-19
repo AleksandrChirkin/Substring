@@ -1,0 +1,12 @@
+Enter report to see a report and analyze algorithms
+
+Input these keys to launch or ask for help about algorithms:
+bf - Brute force
+sh - Simple (linear) hash
+qh - Quadratic hash
+rk - Rabin-Karp algorithm
+auto - Finite deterministic automat
+mp - Morris-Pratt algorithm
+
+After launching algorithm, you should enter fragments and select text.
+You will be able to input new data immediately after starting algorithm, because it's launched in parallel thread.

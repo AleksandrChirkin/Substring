@@ -1,0 +1,11 @@
+SUBSTRINGS
+Author: Alexander Chirkin, KB-101 (MEN-191015)
+
+Searches a substring in the entered string.
+
+Availbale algorithms:
+* Brute force
+* Hashes (simple, quadratic, Rabin-Karp)
+* Automat
+* Morris-Pratt
+

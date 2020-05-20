@@ -14,7 +14,10 @@ class AlgorithmRunner:
     def run(self):
         text = open('samples/Voyna_i_mir.txt', 'r', encoding='windows-1251')
         if self.arguments.clear:
-            os.remove('reporting/report.txt')
+            try:
+                os.remove('reporting/report.txt')
+            except OSError:
+                print('Report file not found')
         if self.arguments.assist:
             self.help()
         elif self.arguments.algorithm == 'report':

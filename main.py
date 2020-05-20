@@ -12,15 +12,15 @@ class AlgorithmRunner:
         self.arguments = arguments
 
     def run(self):
+        text = open('samples/Voyna_i_mir.txt', 'r', encoding='windows-1251')
         if self.arguments.clear:
             os.remove('reporting/report.txt')
         if self.arguments.assist:
             self.help()
-        if self.arguments.algorithm == 'report':
+        elif self.arguments.algorithm == 'report':
             report = Reporting()
             report.run()
-        text = open('samples/Voyna_i_mir.txt', 'r', encoding='windows-1251')
-        if self.arguments.algorithm == 'all':
+        elif self.arguments.algorithm == 'all':
             self.launch_all(text)
         else:
             self.launch(text, self.arguments.fragment)

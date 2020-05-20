@@ -3,27 +3,30 @@ class Reporting:
         self.is_testing = for_test
 
     def run(self, args=None):
-        with open('reporting/report.txt', 'r', encoding='utf-8') as report:
-            report_content = report.readlines()
-        content = self.get_content(report_content)
-        if self.is_testing:
-            if args == '0':
-                return content
-            elif args == '10':
-                return self.time_analysis(content, self.is_testing, '0')
-            elif args == '11':
-                return self.time_analysis(content, self.is_testing, '1')
-        else:
-            print('Select mode:\n0 - Print whole report\n'
-                  '1 - Analyze by time elapsed')
-            mode = input()
-            if mode == '0':
-                for item in content:
-                    print(item)
-            elif mode == '1':
-                self.time_analysis(content)
+        try:
+            with open('reporting/report.txt', 'r', encoding='utf-8') as report:
+                report_content = report.readlines()
+            content = self.get_content(report_content)
+            if self.is_testing:
+                if args == '0':
+                    return content
+                elif args == '10':
+                    return self.time_analysis(content, self.is_testing, '0')
+                elif args == '11':
+                    return self.time_analysis(content, self.is_testing, '1')
             else:
-                print("Incorrect input!")
+                print('Select mode:\n0 - Print whole report\n'
+                      '1 - Analyze by time elapsed')
+                mode = input()
+                if mode == '0':
+                    for item in content:
+                        print(item)
+                elif mode == '1':
+                    self.time_analysis(content)
+                else:
+                    print("Incorrect input!")
+        except OSError:
+            print('Report file not found!')
 
     @staticmethod
     def get_content(report_content):

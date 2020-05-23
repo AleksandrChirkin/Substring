@@ -1,4 +1,3 @@
-from time import perf_counter
 from algorithms import Algorithm
 
 
@@ -17,45 +16,48 @@ class Automat(Algorithm):
     Speed of automat build-up - O(k).
     Speed of check - O(n). n - length of string, k - length of substring
     """
-    def run(self):
-        begin_time = perf_counter()
+    def run(self, text, template) -> int:
+        file_length = text.seek(0, 2)
         counter = 0
-        size = len(self.template)
+        size = len(template)
         alph = {}
         alphabet = []
         for i in range(size):
-            alph[self.template[i]] = 0
+            alph[template[i]] = 0
             k = 0
             for j in range(len(alphabet)):
-                if self.template[i] != alphabet[j]:
+                if template[i] != alphabet[j]:
                     k += 1
             if k == len(alphabet):
-                alphabet.append(self.template[i])
-        matrix = self.generate_matrix(alph, size)
+                alphabet.append(template[i])
+        matrix = self.generate_matrix(alph, size, template)
         states = []
         for i in range(size+1):
-            states.append(self.template[:i])
-        for line in self.text:
-            state_number = 0
-            for i in line:
-                k = 0
-                while k < len(alphabet) and i != alphabet[k]:
-                    k += 1
-                state_number = self.get_state_number(k, alphabet, matrix,
-                                                     state_number)
-                if state_number == size:
-                    counter += 1
-        self.output("Automat", counter, perf_counter()-begin_time)
+            states.append(template[:i])
+        state_number = 0
+        for index in range(file_length):
+            text.seek(index)
+            k = 0
+            current = text.readline(1)
+            while k < len(alphabet) and current != alphabet[k]:
+                k += 1
+            state_number = self.get_state_number(k, alphabet, matrix,
+                                                 state_number)
+            if state_number == size:
+                counter += 1
+        self.update_report('Automat', counter, template)
+        return counter
 
-    def generate_matrix(self, alph, size):
+    @staticmethod
+    def generate_matrix(alph, size, template):
         matrix = []
         for _ in range(size + 1):
             matrix.append({})
         for i in alph:
             matrix[0][i] = 0
         for j in range(size):
-            prev = matrix[j][self.template[j]]
-            matrix[j][self.template[j]] = j + 1
+            prev = matrix[j][template[j]]
+            matrix[j][template[j]] = j + 1
             for i in alph:
                 matrix[j + 1][i] = matrix[prev][i]
         return matrix

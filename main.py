@@ -1,94 +1,100 @@
 #!usr/bin/env python3
 import argparse
+import io
 import os
 
-from algorithms import Automat, BruteForce, MorrisPratt, QuadraticHash,\
-                       RabinKarp, SimpleHash
+from algorithms import ALGORITHMS
 from reporting import Reporting
 
 
 class AlgorithmRunner:
-    def __init__(self, arguments):
-        self.arguments = arguments
+    def __init__(self):
+        pass
 
-    def run(self):
-        text = open('samples/Voyna_i_mir.txt', 'r', encoding='windows-1251')
-        if self.arguments.clear:
-            try:
-                os.remove('reporting/report.txt')
-            except OSError:
-                print('Report file not found')
-        if self.arguments.assist:
-            self.help()
-        elif self.arguments.algorithm == 'report':
-            report = Reporting()
-            report.run()
-        elif self.arguments.algorithm == 'all':
-            self.launch_all(text)
-        else:
-            self.launch(text, self.arguments.fragment)
+    def run(self, arguments):
+        try:
+            if arguments.algorithm == 'report':
+                if arguments.clear:
+                    try:
+                        os.remove('reporting/report.txt')
+                    except OSError:
+                        print('Report file does not exist!')
+                    else:
+                        print('Report file successfully deleted!')
+                else:
+                    report = Reporting()
+                    result = report.run(arguments.key)
+                    for item in result:
+                        print(item)
+            else:
+                text = None
+                if arguments.input_file is not None:
+                    text = open(arguments.input_file, 'r',
+                                encoding=arguments.encoding)
+                elif arguments.stdin is not None:
+                    text = io.StringIO(arguments.stdin)
+                with text:
+                    if arguments.algorithm == 'all':
+                        for algorithm in ALGORITHMS:
+                            self.launch_and_report(text, algorithm,
+                                                   arguments.fragment)
+                    else:
+                        self.launch_and_report(text, arguments.algorithm,
+                                               arguments.fragment)
+        except AttributeError:
+            print('Argument not entered!')
+        except OSError:
+            print('Entered file does not exist!')
+        except TypeError:
+            print('Invalid arguments!')
 
-    def help(self):
-        if self.arguments.algorithm == 'all':
-            print('Launches all algorithms')
-        elif self.arguments.algorithm == 'auto':
-            print(Automat.__doc__)
-        elif self.arguments.algorithm == 'bf':
-            print(BruteForce.__doc__)
-        elif self.arguments.algorithm == 'mp':
-            print(MorrisPratt.__doc__)
-        elif self.arguments.algorithm == 'qh':
-            print(QuadraticHash.__doc__)
-        elif self.arguments.algorithm == 'report':
-            print('Analyzes report')
-        elif self.arguments.algorithm == 'rk':
-            print(RabinKarp.__doc__)
-        elif self.arguments.algorithm == 'sh':
-            print(SimpleHash.__doc__)
-
-    def launch_all(self, text):
-        algorithms = ['bf', 'sh', 'qh', 'rk', 'auto', 'mp']
-        for item in algorithms:
-            self.launch(text, item)
-            text.seek(0)
-
-    def launch(self, text, current_algorithm):
-        if current_algorithm == 'auto':
-            auto = Automat(text, self.arguments.fragment)
-            auto.run()
-        elif current_algorithm == 'bf':
-            auto = BruteForce(text, self.arguments.fragment)
-            auto.run()
-        elif current_algorithm == 'mp':
-            auto = MorrisPratt(text, self.arguments.fragment)
-            auto.run()
-        elif current_algorithm == 'qh':
-            auto = QuadraticHash(text, self.arguments.fragment)
-            auto.run()
-        elif current_algorithm == 'rk':
-            auto = RabinKarp(text, self.arguments.fragment)
-            auto.run()
-        elif current_algorithm == 'sh':
-            auto = SimpleHash(text, self.arguments.fragment)
-            auto.run()
+    @staticmethod
+    def launch_and_report(text, algorithm, fragment):
+        algorithm_runner = algorithm()
+        result = algorithm_runner.run(text, fragment)
+        fragments = ["Algorithm: " + algorithm.__name__,
+                     "Current template: " + fragment,
+                     "Fragments found: " + str(result),
+                     "Time elapsed: " + str(algorithm_runner.time), 120 * '-']
+        result = '\n'.join(fragments) + '\n'
+        print(result)
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Program manager')
-    parser.add_argument('algorithm', metavar='A',
-                        choices=['all', 'auto', 'bf', 'mp', 'qh',
-                                 'report', 'rk', 'sh'],
-                        help='Determines searching algorithms')
-    arg_group = parser.add_mutually_exclusive_group()
-    arg_group.add_argument('--fragment', metavar='F',
-                           help='Determines wanted fragment')
-    arg_group.add_argument('--assist', action='store_true',
-                           help='Opens info about algorithm')
-    parser.add_argument('--clear', action='store_true', help='Clears report')
+    subparsers = parser.add_subparsers(title='algorithm')
+    for algorithm in ALGORITHMS:
+        _parser = subparsers.add_parser(algorithm.__name__.lower(),
+                                        help=algorithm.__doc__)
+        _parser.set_defaults(algorithm=algorithm)
+        _parser.add_argument('fragment', metavar='F',
+                             help='Determines wanted fragment')
+        group = _parser.add_mutually_exclusive_group()
+        group.add_argument('--input_file', '-f', default=None)
+        group.add_argument('--stdin', '-s', default=None)
+        _parser.add_argument('--encoding', '-e', default='utf-8')
+    all_parser = subparsers.add_parser("all", help='Launches all algorithms')
+    all_parser.set_defaults(algorithm='all')
+    all_parser.add_argument('fragment', metavar='F',
+                            help='Determines wanted fragment')
+    group = all_parser.add_mutually_exclusive_group()
+    group.add_argument('--input_file', metavar='f', default=None,
+                       help='Input file')
+    group.add_argument('--stdin', metavar='s', default=None,
+                       help='Enter text in stdin')
+    all_parser.add_argument('--encoding', metavar='e', default='utf-8',
+                            help='Determines encoding of text stream')
+
+    report_parser = subparsers.add_parser("report", help=Reporting.__doc__)
+    report_parser.set_defaults(algorithm='report')
+    report_group = report_parser.add_mutually_exclusive_group()
+    report_group.add_argument('--key', metavar='k', help='Key')
+    report_group.add_argument('--clear', action='store_true',
+                              help='Deletes the report')
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     args = parse_args()
-    runner = AlgorithmRunner(args)
-    runner.run()
+    runner = AlgorithmRunner()
+    runner.run(args)

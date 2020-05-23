@@ -1,19 +1,21 @@
+from abc import abstractmethod
+from time import perf_counter
+
+
 class Algorithm:
-    def __init__(self, text, template, for_test=False):
-        self.text = text
-        self.template = template
-        self.is_testing = for_test
+    def __init__(self):
+        self.time = perf_counter()
 
-    def run(self):
-        pass
+    @abstractmethod
+    def run(self, text, template) -> int:
+        raise NotImplementedError()
 
-    def output(self, algorithm, counter, time):
+    def update_report(self, algorithm, counter, template):
+        self.time = perf_counter()-self.time
         fragments = ["Algorithm: "+algorithm,
-                     "Current template: "+self.template,
+                     "Current template: "+template,
                      "Fragments found: "+str(counter),
-                     "Time elapsed: "+str(time), 120*'-']
+                     "Time elapsed: "+str(self.time), 120*'-']
         result = '\n'.join(fragments)+'\n'
-        if self.is_testing is False:
-            print(result)
         with open('reporting/report.txt', 'a+', encoding='utf-8') as report:
             report.write(result)

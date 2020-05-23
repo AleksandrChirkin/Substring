@@ -1,1 +1,0 @@
-Launches all algorithms to all of your templates.

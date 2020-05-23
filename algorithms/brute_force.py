@@ -1,4 +1,3 @@
-from time import perf_counter
 from algorithms import Algorithm
 
 
@@ -10,21 +9,20 @@ class BruteForce(Algorithm):
     Then it checks next symbols, until the irrelevant symbol found, or wanted substring found.
 
     Speed - O(nk), where n - length of string, k - length of substring"""
-    def run(self):
-        begin_time = perf_counter()
+    def run(self, text, template) -> int:
+        file_length = text.seek(0, 2)
         counter = 0
-        for line in self.text:
-            for j in range(len(line)):
-                t = j
-                if t > len(line):
+        for j in range(file_length):
+            text.seek(j)
+            t = j
+            m = 0
+            while t < file_length and template[m] == text.readline(1):
+                t += 1
+                text.seek(t)
+                m += 1
+                if m == len(template):
                     break
-                m = 0
-                while (t < len(line) and
-                       self.template[m] == line[t]):
-                    t += 1
-                    m += 1
-                    if m == len(self.template):
-                        break
-                if m == len(self.template):
-                    counter += 1
-        self.output("Brute force", counter, perf_counter()-begin_time)
+            if m == len(template):
+                counter += 1
+        self.update_report('BruteForce', counter, template)
+        return counter

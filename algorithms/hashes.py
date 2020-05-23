@@ -1,4 +1,3 @@
-from time import perf_counter
 from algorithms import Algorithm
 
 
@@ -6,7 +5,7 @@ class SimpleHash(Algorithm):
     """
     SIMPLE HASH ALGORITHM
 
-    It takes the length of wanted substring and counts codes of this number symbols,
+    It takes the length of wanted substring and counts codes of this number symbols,/n
      starting from the current position.
     After moving to the new position, code of previous symbol is removed
         and code of the next rightest position of new fragment.
@@ -18,40 +17,42 @@ class SimpleHash(Algorithm):
 
     ATTENTION! Procedure of taking code of symbol can take long time!
     """
-    def run(self):
-        begin_time = perf_counter()
+    def run(self, text, template) -> int:
+        file_length = text.seek(0, 2)
         counter = 0
         collisions = 0
         hash_sum_template = 0
-        for j in range(len(self.template)):
-            hash_sum_template += ord(self.template[j])
-        for line in self.text:
-            if len(line) < len(self.template):
-                continue
-            hash_sum_line = 0
-            for k in range(len(self.template)):
-                hash_sum_line += ord(line[k])
-            for j in range(len(line)):
-                if j+len(self.template)-1 >= len(line):
-                    break
-                t = j
-                m = 0
-                if j >= 1:
-                    hash_sum_line = hash_sum_line + \
-                                    ord(line[j+len(self.template)-1]) - \
-                                    ord(line[j-1])
-                if hash_sum_line == hash_sum_template:
-                    while (t < len(line) and
-                           line[t] == self.template[m]):
-                        t += 1
-                        m += 1
-                        if m == len(self.template):
-                            break
-                    if m == len(self.template):
-                        counter += 1
-                    else:
-                        collisions += 1
-        self.output("Simple Hash", counter, perf_counter()-begin_time)
+        for j in range(len(template)):
+            hash_sum_template += ord(template[j])
+        hash_sum_line = 0
+        text.seek(0)
+        for k in range(len(template)):
+            hash_sum_line += ord(text.readline(1))
+            text.seek(k+1)
+        for i in range(file_length):
+            text.seek(i)
+            t = i
+            m = 0
+            if i >= 1 and i+len(template)-1 < file_length:
+                text.seek(i+len(template)-1)
+                new_order = ord(text.readline(1))
+                text.seek(i-1)
+                old_order = ord(text.readline(1))
+                hash_sum_line = hash_sum_line+new_order-old_order
+            if hash_sum_line == hash_sum_template:
+                text.seek(i)
+                while t < file_length and text.readline(1) == template[m]:
+                    t += 1
+                    text.seek(t)
+                    m += 1
+                    if m == len(template):
+                        break
+                if m == len(template):
+                    counter += 1
+                else:
+                    collisions += 1
+        self.update_report('Simple Hash', counter, template)
+        return counter
 
 
 class QuadraticHash(Algorithm):
@@ -70,42 +71,43 @@ class QuadraticHash(Algorithm):
 
     ATTENTION! Procedure of taking code of symbol can take long time!
     """
-    def run(self):
-        begin_time = perf_counter()
+    def run(self, text, template) -> int:
+        file_length = text.seek(0, 2)
         counter = 0
         collisions = 0
         hash_sum_template = 0
-        for j in range(len(self.template)):
-            hash_sum_template += ord(self.template[j])*ord(self.template[j])
-        for line in self.text:
-            if len(line) < len(self.template):
-                continue
-            hash_sum_line = 0
-            for k in range(len(self.template)):
-                hash_sum_line += ord(line[k]) * ord(line[k])
-            for j in range(len(line)):
-                if j+len(self.template)-1 >= len(line):
-                    break
-                t = j
-                m = 0
-                if j >= 1:
-                    hash_sum_line = hash_sum_line + \
-                                    ord(line[j+len(self.template)-1]) * \
-                                    ord(line[j+len(self.template)-1]) - \
-                                    ord(line[j-1]) * \
-                                    ord(line[j-1])
-                if hash_sum_line == hash_sum_template:
-                    while (t < len(line) and
-                           line[t] == self.template[m]):
-                        t += 1
-                        m += 1
-                        if m == len(self.template):
-                            break
-                    if m == len(self.template):
-                        counter += 1
-                    else:
-                        collisions += 1
-        self.output("Quadratic Hash", counter, perf_counter()-begin_time)
+        for j in range(len(template)):
+            hash_sum_template += ord(template[j]) * ord(template[j])
+        hash_sum_line = 0
+        text.seek(0)
+        for k in range(len(template)):
+            order = ord(text.readline(1))
+            hash_sum_line += order * order
+            text.seek(k + 1)
+        for i in range(file_length):
+            text.seek(i)
+            t = i
+            m = 0
+            if i >= 1 and i + len(template) - 1 < file_length:
+                text.seek(i + len(template) - 1)
+                new = ord(text.readline(1))
+                text.seek(i - 1)
+                old = ord(text.readline(1))
+                hash_sum_line = hash_sum_line + new * new - old * old
+            if hash_sum_line == hash_sum_template:
+                text.seek(i)
+                while t < file_length and text.readline(1) == template[m]:
+                    t += 1
+                    text.seek(t)
+                    m += 1
+                    if m == len(template):
+                        break
+                if m == len(template):
+                    counter += 1
+                else:
+                    collisions += 1
+        self.update_report('Quadratic Hash', counter, template)
+        return counter
 
 
 class RabinKarp(Algorithm):
@@ -125,40 +127,42 @@ class RabinKarp(Algorithm):
 
     ATTENTION! Procedure of taking code of symbol can take long time!
     """
-    def run(self):
-        begin_time = perf_counter()
+    def run(self, text, template) -> int:
+        file_length = text.seek(0, 2)
         multiplier = 1
-        for _ in range(len(self.template) - 1):
+        for _ in range(len(template) - 1):
             multiplier *= 2
         counter = 0
         collisions = 0
         hash_sum_template = 0
-        for j in range(len(self.template)):
-            hash_sum_template = hash_sum_template * 2 + ord(self.template[j])
-        for line in self.text:
-            if len(line) < len(self.template):
-                continue
-            hash_sum_line = 0
-            for k in range(len(self.template)):
-                hash_sum_line = hash_sum_line * 2 + ord(line[k])
-            for j in range(len(line)):
-                if j+len(self.template)-1 >= len(line):
-                    break
-                t = j
-                m = 0
-                if j >= 1:
-                    hash_sum_line = (hash_sum_line-ord(line[j-1]) *
-                                     multiplier)*2 +\
-                                     ord(line[j+len(self.template)-1])
-                if hash_sum_line == hash_sum_template:
-                    while (t < len(line) and
-                           line[t] == self.template[m]):
-                        t += 1
-                        m += 1
-                        if m == len(self.template):
-                            break
-                    if m == len(self.template):
-                        counter += 1
-                    else:
-                        collisions += 1
-        self.output("Rabin-Karp", counter, perf_counter()-begin_time)
+        for j in range(len(template)):
+            hash_sum_template = hash_sum_template * 2 + ord(template[j])
+        hash_sum_line = 0
+        text.seek(0)
+        for k in range(len(template)):
+            hash_sum_line = hash_sum_line * 2 + ord(text.readline(1))
+            text.seek(k+1)
+        for i in range(file_length):
+            text.seek(i)
+            t = i
+            m = 0
+            if i >= 1 and i + len(template) - 1 < file_length:
+                text.seek(i+len(template)-1)
+                new = ord(text.readline(1))
+                text.seek(i-1)
+                old = ord(text.readline(1))
+                hash_sum_line = (hash_sum_line-(old*multiplier)) * 2 + new
+            if hash_sum_line == hash_sum_template:
+                text.seek(i)
+                while t < file_length and text.readline(1) == template[m]:
+                    t += 1
+                    text.seek(t)
+                    m += 1
+                    if m == len(template):
+                        break
+                if m == len(template):
+                    counter += 1
+                else:
+                    collisions += 1
+        self.update_report('Rabin-Karp', counter, template)
+        return counter

@@ -1,30 +1,35 @@
-Algorithm: Brute force
-Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Fragments found: 901
-Time elapsed: 0.06566567000118084
-------------------------------------------------------------------------------------------------------------------------
-Algorithm: Simple Hash
-Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Fragments found: 0
-Time elapsed: 8.358900049643125e-05
-------------------------------------------------------------------------------------------------------------------------
-Algorithm: Quadratic Hash
-Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Fragments found: 0
-Time elapsed: 0.00013248799950815737
-------------------------------------------------------------------------------------------------------------------------
-Algorithm: Rabin-Karp
-Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Fragments found: 0
-Time elapsed: 0.0001262519999727374
-------------------------------------------------------------------------------------------------------------------------
 Algorithm: Automat
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Fragments found: 0
-Time elapsed: 0.0006458839998231269
+Fragments found: 901
+Time elapsed: 0.012451823000446893
+------------------------------------------------------------------------------------------------------------------------
+Algorithm: Boyer-Moore
+Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Fragments found: 901
+Time elapsed: 0.16938438899887842
+------------------------------------------------------------------------------------------------------------------------
+Algorithm: BruteForce
+Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Fragments found: 901
+Time elapsed: 0.21734835299866972
 ------------------------------------------------------------------------------------------------------------------------
 Algorithm: Morris-Pratt
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Fragments found: 0
-Time elapsed: 0.00020485300046857446
+Fragments found: 901
+Time elapsed: 0.225362576000407
+------------------------------------------------------------------------------------------------------------------------
+Algorithm: Quadratic Hash
+Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Fragments found: 901
+Time elapsed: 0.2667777920014487
+------------------------------------------------------------------------------------------------------------------------
+Algorithm: Rabin-Karp
+Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Fragments found: 901
+Time elapsed: 0.27054936599961366
+------------------------------------------------------------------------------------------------------------------------
+Algorithm: Simple Hash
+Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Fragments found: 901
+Time elapsed: 0.2632397420002235
 ------------------------------------------------------------------------------------------------------------------------

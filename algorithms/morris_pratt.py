@@ -1,4 +1,3 @@
-from time import perf_counter
 from algorithms import Algorithm
 
 
@@ -11,29 +10,31 @@ class MorrisPratt(Algorithm):
 
     Speed - O(k + n)
     """
-    def run(self):
-        begin_time = perf_counter()
+    def run(self, text, template) -> int:
+        file_length = text.seek(0, 2)
         counter = 0
-        m = len(self.template)
+        m = len(template)
         pi = [0]
         k = 0
         for i in range(1, m):
-            while k > 0 and self.template[k] != self.template[i]:
+            while k > 0 and template[k] != template[i]:
                 k = pi[k-1]
-            if self.template[k] == self.template[i]:
+            if template[k] == template[i]:
                 k += 1
             pi.append(k)
-        for line in self.text:
-            i = 0
-            while i < len(line):
-                j = 0
-                while (j < m and i + j < len(line) and
-                       line[i + j] == self.template[j]):
-                    j += 1
-                if j == m:
-                    counter += 1
-                i += self.inc(j, pi)
-        self.output("Morris-Pratt", counter, perf_counter()-begin_time)
+        i = 0
+        while i < file_length:
+            text.seek(i)
+            j = 0
+            while (j < m and i + j < file_length and
+                    text.readline(1) == template[j]):
+                j += 1
+                text.seek(i+j)
+            if j == m:
+                counter += 1
+            i += self.inc(j, pi)
+        self.update_report('Morris-Pratt', counter, template)
+        return counter
 
     @staticmethod
     def inc(j, pi) -> int:

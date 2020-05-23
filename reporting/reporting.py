@@ -1,32 +1,31 @@
 class Reporting:
-    def __init__(self, for_test=False):
-        self.is_testing = for_test
+    """
+        Analyzes a report created after running algorithms
 
-    def run(self, args=None):
+        Keys:
+        0 - Shows whole report
+        10 - Sorts each run by elapsed time
+        11 - Sorts algorithms by average time
+    """
+    def __init__(self):
+        pass
+
+    def run(self, arg):
         try:
             with open('reporting/report.txt', 'r', encoding='utf-8') as report:
                 report_content = report.readlines()
             content = self.get_content(report_content)
-            if self.is_testing:
-                if args == '0':
-                    return content
-                elif args == '10':
-                    return self.time_analysis(content, self.is_testing, '0')
-                elif args == '11':
-                    return self.time_analysis(content, self.is_testing, '1')
-            else:
-                print('Select mode:\n0 - Print whole report\n'
-                      '1 - Analyze by time elapsed')
-                mode = input()
-                if mode == '0':
-                    for item in content:
-                        print(item)
-                elif mode == '1':
-                    self.time_analysis(content)
-                else:
-                    print("Incorrect input!")
+            if arg == '0':
+                return content
+            elif arg == '10':
+                return self.time_analysis(content, '0')
+            elif arg == '11':
+                return self.time_analysis(content, '1')
+            raise NameError()
         except OSError:
             print('Report file not found!')
+        except NameError:
+            print('Invalid reporting key!')
 
     @staticmethod
     def get_content(report_content):
@@ -48,19 +47,8 @@ class Reporting:
                 item['Collisions occurred:'] = int(string[21:-1])
         return result
 
-    def time_analysis(self, report_content, for_test=False, code=None):
-        if for_test:
-            return self.process_report(code, report_content)
-        else:
-            print('Enter 0 to sort all units by time\n'
-                  'Enter 1 to get average time of algorithm')
-            mode = input()
-            result = self.process_report(mode, report_content)
-            for item in result:
-                print(item)
-
     @staticmethod
-    def process_report(mode, report_content):
+    def time_analysis(report_content, mode):
         if mode == '0':
             return sorted(report_content,
                           key=lambda element:

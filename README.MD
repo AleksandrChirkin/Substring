@@ -9,7 +9,7 @@
 * Алгоритм Морриса-Пратта
 * Алгоритм Бойера-Мура
 
-После запуска алгоритмов можно посмотреть и проанализировать алгоритмы на их расходование времени
+После запуска алгоритмов можно посмотреть и проанализировать алгоритмы на их расходование времени и памяти
 
 ## Требования
 * Python версии не ниже 3.7
@@ -36,6 +36,7 @@ python3 main.py  [-h] {automat,boyermoore,bruteforce,morrispratt,quadratichash,r
 * 0 - выводится весь отчет
 * 10 - отчет сортирует каждый запуск по времени
 * 11 - отчет сортирует каждый алгоритм по времени
+* 2 - отчет сортирует каждый запуск по памяти
 
 Наконец, чтобы при получении отчета не появлялись старые данные, можно использовать команду 'report --clear', чтобы
 удалить файл отчета. При новом запуске отчет воссоздастся.
@@ -44,15 +45,16 @@ python3 main.py  [-h] {automat,boyermoore,bruteforce,morrispratt,quadratichash,r
 При введении клча '-h' или '--help' выводится справка по соответствующему алгоритму
 
 ## Покрытие тестами
-algorithms/__init__.py        8      0   100%
-algorithms/algorithm.py      14      1    93%
-algorithms/automat.py        50      1    98%
-algorithms/boyermoore.py     36      2    94%
-algorithms/brute_force.py    19      0   100%
-algorithms/hashes.py        113      0   100%
-algorithms/morris_pratt.py   31      0   100%
-reporting/__init__.py         2      0   100%
-reporting/reporting.py       58      2    97%
-tests/test_algorithms.py     74      3    96%
-tests/test_report.py         46      3    93%
+* algorithms/__init__.py      8      0   100%
+* algorithms/algorithm.py    15      1    93%
+* algorithms/automat.py      49      1    98%
+* algorithms/boyer_moore.py  38      2    95%
+* algorithms/brute_force.py  21      0   100%
+* algorithms/hashes.py      117      0   100%
+* algorithms/morris_pratt.py 33      0   100%
+* reporting/__init__.py       2      0   100%
+* reporting/reporting.py     65      2    97%
+* tests/test_algorithms.py   74      3    96%
+* tests/test_report.py       53      3    94%
+
 

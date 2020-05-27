@@ -1,6 +1,6 @@
 from algorithms.algorithm import Algorithm
 from algorithms.automat import Automat
-from algorithms.boyermoore import BoyerMoore
+from algorithms.boyer_moore import BoyerMoore
 from algorithms.brute_force import BruteForce
 from algorithms.hashes import SimpleHash, QuadraticHash, RabinKarp
 from algorithms.morris_pratt import MorrisPratt

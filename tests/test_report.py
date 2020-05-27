@@ -33,7 +33,8 @@ class ReportTest(unittest.TestCase):
         self.assertEqual(7, len(sorted_results))
         previous = sorted_results[0]
         for item in sorted_results[1:]:
-            self.assertLess(previous['Time elapsed:'], item['Time elapsed:'])
+            self.assertLessEqual(previous['Time elapsed:'],
+                                 item['Time elapsed:'])
             previous = item
 
     def testOneOne(self):
@@ -41,7 +42,16 @@ class ReportTest(unittest.TestCase):
         self.assertEqual(7, len(sorted_algorithms))
         previous = sorted_algorithms[0]
         for item in sorted_algorithms[1:]:
-            self.assertLess(previous[1], item[1])
+            self.assertLessEqual(previous[1], item[1])
+            previous = item
+
+    def testTwo(self):
+        sorted_results = self.reporting.run('2')
+        self.assertEqual(7, len(sorted_results))
+        previous = sorted_results[0]
+        for item in sorted_results[1:]:
+            self.assertLessEqual(previous['Memory spent:'],
+                                 item['Memory spent:'])
             previous = item
 
     def testIgnoreWrongKey(self):

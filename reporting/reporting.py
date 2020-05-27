@@ -6,6 +6,7 @@ class Reporting:
         0 - Shows whole report
         10 - Sorts each run by elapsed time
         11 - Sorts algorithms by average time
+        2 - Sorts algorithms by memory use
     """
     def __init__(self):
         pass
@@ -21,6 +22,8 @@ class Reporting:
                 return self.time_analysis(content, '0')
             elif arg == '11':
                 return self.time_analysis(content, '1')
+            elif arg == '2':
+                return self.memory_analysis(content)
             raise NameError()
         except OSError:
             print('Report file not found!')
@@ -37,6 +40,8 @@ class Reporting:
                 item = {}
             elif string[:10] == 'Algorithm:':
                 item['Algorithm:'] = string[11:-1]
+            elif string[:13] == 'Memory spent:':
+                item['Memory spent:'] = int(string[14:-1])
             elif string[:13] == 'Time elapsed:':
                 item['Time elapsed:'] = float(string[14:-1])
             elif string[:16] == 'Fragments found:':
@@ -72,3 +77,8 @@ class Reporting:
             else:
                 times[current_algorithm] = current_time / current_number
             return sorted(times.items(), key=lambda element: element[1])
+
+    @staticmethod
+    def memory_analysis(content):
+        return sorted(content,
+                      key=lambda element: int(element['Memory spent:']))

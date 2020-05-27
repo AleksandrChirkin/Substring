@@ -1,35 +1,42 @@
 Algorithm: Automat
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Fragments found: 901
-Time elapsed: 0.012451823000446893
+Time elapsed: 0.0021850459997949656
+Memory spent: 1272
 ------------------------------------------------------------------------------------------------------------------------
 Algorithm: Boyer-Moore
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Fragments found: 901
-Time elapsed: 0.16938438899887842
+Time elapsed: 0.07401755099999718
+Memory spent: 368
 ------------------------------------------------------------------------------------------------------------------------
 Algorithm: BruteForce
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Fragments found: 901
-Time elapsed: 0.21734835299866972
+Time elapsed: 0.09164153399979114
+Memory spent: 48
 ------------------------------------------------------------------------------------------------------------------------
 Algorithm: Morris-Pratt
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Fragments found: 901
-Time elapsed: 0.225362576000407
+Time elapsed: 0.09526182999979937
+Memory spent: 968
 ------------------------------------------------------------------------------------------------------------------------
 Algorithm: Quadratic Hash
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Fragments found: 901
-Time elapsed: 0.2667777920014487
+Time elapsed: 0.1065780730023107
+Memory spent: 48
 ------------------------------------------------------------------------------------------------------------------------
 Algorithm: Rabin-Karp
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Fragments found: 901
-Time elapsed: 0.27054936599961366
+Time elapsed: 0.10943259000123362
+Memory spent: 48
 ------------------------------------------------------------------------------------------------------------------------
 Algorithm: Simple Hash
 Current template: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Fragments found: 901
-Time elapsed: 0.2632397420002235
+Time elapsed: 0.10762600799716893
+Memory spent: 48
 ------------------------------------------------------------------------------------------------------------------------

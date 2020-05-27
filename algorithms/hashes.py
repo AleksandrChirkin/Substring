@@ -1,3 +1,4 @@
+import sys
 from algorithms import Algorithm
 
 
@@ -51,6 +52,7 @@ class SimpleHash(Algorithm):
                     counter += 1
                 else:
                     collisions += 1
+        self.memory = sys.getsizeof(self)
         self.update_report('Simple Hash', counter, template)
         return counter
 
@@ -106,6 +108,7 @@ class QuadraticHash(Algorithm):
                     counter += 1
                 else:
                     collisions += 1
+        self.memory = sys.getsizeof(self)
         self.update_report('Quadratic Hash', counter, template)
         return counter
 
@@ -164,5 +167,6 @@ class RabinKarp(Algorithm):
                     counter += 1
                 else:
                     collisions += 1
+        self.memory = sys.getsizeof(self)
         self.update_report('Rabin-Karp', counter, template)
         return counter

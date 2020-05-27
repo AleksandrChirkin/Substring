@@ -1,3 +1,4 @@
+import sys
 from algorithms import Algorithm
 
 
@@ -45,5 +46,7 @@ class BoyerMoore(Algorithm):
                 if matches == len(template):
                     counter += 1
                 i += len(template) - steps
+        self.memory = sys.getsizeof(self) + sys.getsizeof(alphabet) +\
+                      sys.getsizeof(rightest)
         self.update_report("Boyer-Moore", counter, template)
         return counter

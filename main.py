@@ -55,7 +55,9 @@ class AlgorithmRunner:
         fragments = ["Algorithm: " + algorithm.__name__,
                      "Current template: " + fragment,
                      "Fragments found: " + str(result),
-                     "Time elapsed: " + str(algorithm_runner.time), 120 * '-']
+                     "Time elapsed: " + str(algorithm_runner.time),
+                     "Memory spent: " + str(algorithm_runner.memory),
+                     120 * '-']
         result = '\n'.join(fragments) + '\n'
         print(result)
 

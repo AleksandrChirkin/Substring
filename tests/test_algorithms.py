@@ -15,8 +15,6 @@ except OSError:
 
 class AlgorithmsTest(unittest.TestCase):
     def setUp(self):
-        report = open('reporting/report.txt', 'w')
-        report.close()
         self.text = io.StringIO(1000 * 'A')
         self.fragments = [100*'A', 100*'A'+'B', 'B'+100*'A']
 

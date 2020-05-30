@@ -1,4 +1,3 @@
-import sys
 from algorithms import Algorithm
 
 
@@ -43,9 +42,6 @@ class Automat(Algorithm):
                                                  state_number)
             if state_number == size:
                 counter += 1
-        self.memory = sys.getsizeof(self) + sys.getsizeof(alph) +\
-                      sys.getsizeof(alphabet) + sys.getsizeof(matrix)
-        self.update_report('Automat', counter, template)
         return counter
 
     @staticmethod

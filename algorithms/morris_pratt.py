@@ -1,4 +1,3 @@
-import sys
 from algorithms import Algorithm
 
 
@@ -34,8 +33,6 @@ class MorrisPratt(Algorithm):
             if j == m:
                 counter += 1
             i += self.inc(j, pi)
-        self.memory = sys.getsizeof(self) + sys.getsizeof(pi)
-        self.update_report('Morris-Pratt', counter, template)
         return counter
 
     @staticmethod

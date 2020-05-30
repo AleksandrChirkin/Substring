@@ -1,4 +1,3 @@
-import sys
 from algorithms import Algorithm
 
 
@@ -25,6 +24,4 @@ class BruteForce(Algorithm):
                     break
             if m == len(template):
                 counter += 1
-        self.memory = sys.getsizeof(self)
-        self.update_report('BruteForce', counter, template)
         return counter

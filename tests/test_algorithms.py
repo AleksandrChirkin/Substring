@@ -1,16 +1,8 @@
 import io
-import os
-import sys
 import unittest
 
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                             os.path.pardir))
-
-try:
-    from algorithms import Automat, BoyerMoore, BruteForce, MorrisPratt, \
+from algorithms import Automat, BoyerMoore, BruteForce, MorrisPratt, \
         QuadraticHash, RabinKarp, SimpleHash, ALGORITHMS
-except OSError:
-    print("Без 6-14 строк ругается то компилятор, то PEP((")
 
 
 class AlgorithmsTest(unittest.TestCase):

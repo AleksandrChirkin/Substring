@@ -9,7 +9,7 @@
 * Алгоритм Морриса-Пратта
 * Алгоритм Бойера-Мура
 
-После запуска алгоритмов можно посмотреть и проанализировать алгоритмы на их расходование времени
+После запуска алгоритмов можно посмотреть и проанализировать алгоритмы на их расходование времени.
 
 ## Требования
 * Python версии не ниже 3.7
@@ -17,8 +17,8 @@
 ## Состав
 * Точка входа: 'benchmark.py'
 * Папка с алгоритмами: 'algorithms'; имя каждого файла в этой папке соответствует алгоритмам, которые в нем содержатся
-* Папка 'reporting' - в ней лежит отчет, а также алгоритм его обработки
-* Папка 'samples' содержит примеры текстов, на которых можно проверить алгоритм - "Война и мир" Л.Н. Толстого 
+* Папка 'samples' содержит примеры текстов, на которых можно проверить алгоритм - "Война и мир" Л.Н. Толстого
+* Папка 'tests' содержит тесты на алгоритмы
 
 ## Запуск
 python3 benchmark.py  [-h] {automat,boyermoore,bruteforce,morrispratt,quadratichash,rabinkarp,simplehash,all,report} ...
@@ -27,9 +27,9 @@ python3 benchmark.py  [-h] {automat,boyermoore,bruteforce,morrispratt,quadratich
 * 'all' - запускает все алгоритмы
 * Для запуска соответствующего алгоритма введите его название
 
-При выборе алгоритма потребуется ввести шаблоны, которые будут искаться алгоритмами (добавив ключ --fragments).
+При выборе алгоритма потребуется ввести шаблоны, которые будут искаться алгоритмами.
 Затем нужно либо выбрать файл, в котором будет происходить поиск (--input_file + --encoding - кодировка текста),
-либо самому написать текст (с использованием ключа --stdin)
+либо самому написать текст через stdin (с использованием ключа --stdin) и знаком '<<'
 
 Наконец, можно выбрать способ вывода отчета: через stdout или в файл; для последнего нужно ввести ключ --report_file и
 ввести название файла, в который будет выводиться отчет
@@ -38,16 +38,14 @@ python3 benchmark.py  [-h] {automat,boyermoore,bruteforce,morrispratt,quadratich
 При введении клча '-h' или '--help' выводится справка по соответствующему алгоритму
 
 ## Покрытие тестами
-* algorithms/__init__.py      8      0   100%
-* algorithms/algorithm.py    15      1    93%
-* algorithms/automat.py      49      1    98%
-* algorithms/boyer_moore.py  38      2    95%
-* algorithms/brute_force.py  21      0   100%
-* algorithms/hashes.py      117      0   100%
-* algorithms/morris_pratt.py 33      0   100%
-* reporting/__init__.py       2      0   100%
-* reporting/reporting.py     65      2    97%
-* tests/test_algorithms.py   74      3    96%
-* tests/test_report.py       53      3    94%
+* algorithms/__init__.py                                                                     8      0   100%
+* algorithms/algorithm.py                                                                    5      1    80%
+* algorithms/automat.py                                                                     46      1    98%
+* algorithms/boyer_moore.py                                                                 35      2    94%
+* algorithms/brute_force.py                                                                 18      0   100%
+* algorithms/hashes.py                                                                     110      0   100%
+* algorithms/morris_pratt.py                                                                30      0   100%
+* tests/test_algorithms.py                                                                  66      1    98%
+
 
 

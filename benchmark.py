@@ -1,23 +1,21 @@
 #!usr/bin/env python3
 import argparse
 import io
+import sys
 from time import perf_counter
 
 from algorithms import ALGORITHMS
 
 
 class AlgorithmRunner:
-    def __init__(self):
-        pass
-
     def run(self, arguments):
         try:
             text = None
             if arguments.input_file is not None:
                 text = open(arguments.input_file, 'r',
                             encoding=arguments.encoding)
-            elif arguments.stdin is not None:
-                text = io.StringIO(arguments.stdin)
+            elif arguments.stdin:
+                text = io.StringIO(''.join(sys.stdin.readlines()))
             with text:
                 if arguments.algorithm == 'all':
                     for algorithm in ALGORITHMS:
@@ -41,11 +39,11 @@ class AlgorithmRunner:
 
     @staticmethod
     def report(result, report_file):
-        elements = ['Algorithm: '+result[0].__name__,
-                    'Fragment: '+result[1],
-                    'Text size: '+str(result[2].seek(0, 2)),
-                    'Fragments found: '+str(result[3]),
-                    'Time elapsed: '+str(result[4]), 120*'-']
+        elements = ['Algorithm: %s' % result[0].__name__,
+                    'Fragment: %s' % result[1],
+                    'Text size: %s' % result[2].seek(0, 2),
+                    'Fragments found: %s' % result[3],
+                    'Time elapsed: %s' % result[4], 120*'-']
         report = '\n'.join(elements)
         if report_file is not None:
             with open(report_file, 'a+') as stream:
@@ -66,7 +64,7 @@ def parse_args():
         group = _parser.add_mutually_exclusive_group()
         group.add_argument('--input_file', metavar='f', default=None,
                            help='Input file')
-        group.add_argument('--stdin', metavar='s', default=None,
+        group.add_argument('--stdin', action='store_true',
                            help='Enter text in stdin')
         _parser.add_argument('--encoding', metavar='e', default='utf-8',
                              help='Determines encoding of text stream')
@@ -79,7 +77,7 @@ def parse_args():
     group = all_parser.add_mutually_exclusive_group()
     group.add_argument('--input_file', metavar='f', default=None,
                        help='Input file')
-    group.add_argument('--stdin', metavar='s', default=None,
+    group.add_argument('--stdin', action='store_true',
                        help='Enter text in stdin')
     all_parser.add_argument('--encoding', metavar='e', default='utf-8',
                             help='Determines encoding of text stream')

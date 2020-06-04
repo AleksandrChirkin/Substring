@@ -35,9 +35,9 @@ class AlgorithmRunner:
     def launch(self, algorithm, fragment, text, report_file):
         algorithm_runner = algorithm()
         memory = self.count_memory()
-        start_time = perf_counter()
+        time = perf_counter()
         result = algorithm_runner.run(text, fragment)
-        time = perf_counter()-start_time
+        time = perf_counter()-time
         memory = self.count_memory()-memory
         results = (algorithm, fragment, text, result, time, memory)
         self.report(results, report_file)

@@ -5,15 +5,18 @@ class SimpleHash(Algorithm):
     """
     SIMPLE HASH ALGORITHM
 
-    It takes the length of wanted substring and counts codes of this number symbols,/n
+    It takes the length of wanted substring
+     and counts codes of this number symbols,
      starting from the current position.
     After moving to the new position, code of previous symbol is removed
         and code of the next rightest position of new fragment.
     If hash of current fragment is equal to hash of template,
      then symbolwise comparision of fragment and templated launches.
-    If, after that, algorithm found that fragment and template are not the same, it counts it as collision.
+    If, after that, algorithm found that fragment
+     and template are not the same, it counts it as collision.
 
-    Speed - O(n) in the best case, O(nk) in the worst case, where n - length of string and k - length of substring
+    Speed - O(n) in the best case, O(nk) in the worst case,
+     where n - length of string and k - length of substring
 
     ATTENTION! Procedure of taking code of symbol can take long time!
     """
@@ -58,15 +61,18 @@ class QuadraticHash(Algorithm):
     """
     QUADRATIC HASH ALGORITHM
 
-    It takes the length of wanted substring and counts quads of codes of this number symbols,
+    It takes the length of wanted substring
+     and counts quads of codes of this number symbols,
      starting from the current position.
     After moving to the new position, quad of code of previous symbol is removed
      and quad of code of the next rightest position of new fragment.
     If hash of current fragment is equal to hash of template,
      then symbolwise comparision of fragment and templated launches.
-    If, after that, algorithm found that fragment and template are not the same, it counts it as collision.
+    If, after that, algorithm found that fragment
+     and template are not the same, it counts it as collision.
 
-    Speed - O(n) in the best case, O(nk) in the worst case, where n - length of string and k - length of substring
+    Speed - O(n) in the best case, O(nk) in the worst case,
+     where n - length of string and k - length of substring
 
     ATTENTION! Procedure of taking code of symbol can take long time!
     """
@@ -115,13 +121,16 @@ class RabinKarp(Algorithm):
     It takes the length of wanted substring and counts codes of this number symbols,
      starting from the current position.
     Then, after adding a new symbol, the previous hash sum is doubled.
-    After moving to the new position, code of previous symbol in degree of the length of substring is removed
+    After moving to the new position,
+     code of previous symbol in degree of the length of substring is removed
      and code of the next rightest position of new fragment is added.
     If hash of current fragment is equal to hash of template,
      then symbolwise comparision of fragment and templated launches.
-    If, after that, algorithm found that fragment and template are not the same, it counts it as collision.
+    If, after that, algorithm found that fragment and template are not the same,
+     it counts it as collision.
 
-    Speed - O(n) in the best case, O(nk) in the worst case, where n - length of string and k - length of substring
+    Speed - O(n) in the best case, O(nk) in the worst case,
+     where n - length of string and k - length of substring
 
     ATTENTION! Procedure of taking code of symbol can take long time!
     """

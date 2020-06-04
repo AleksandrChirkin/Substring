@@ -3,6 +3,7 @@ import argparse
 import io
 import sys
 from time import perf_counter
+from pympler import muppy, summary
 
 from algorithms import ALGORITHMS
 
@@ -12,10 +13,10 @@ class AlgorithmRunner:
         try:
             text = None
             if arguments.input_file is not None:
-                text = open(arguments.input_file, 'r',
+                text = open(arguments.input_file,
                             encoding=arguments.encoding)
             elif arguments.stdin:
-                text = io.StringIO(''.join(sys.stdin.readlines()))
+                text = io.StringIO(sys.stdin.read())
             with text:
                 if arguments.algorithm == 'all':
                     for algorithm in ALGORITHMS:
@@ -26,16 +27,29 @@ class AlgorithmRunner:
                                 text, arguments.report_file)
         except AttributeError:
             print('Argument was not entered!')
+        except OSError:
+            print('File not found!')
         except TypeError:
             print('Invalid arguments!')
 
     def launch(self, algorithm, fragment, text, report_file):
         algorithm_runner = algorithm()
+        memory = self.count_memory()
         start_time = perf_counter()
         result = algorithm_runner.run(text, fragment)
         time = perf_counter()-start_time
-        results = (algorithm, fragment, text, result, time)
+        memory = self.count_memory()-memory
+        results = (algorithm, fragment, text, result, time, memory)
         self.report(results, report_file)
+
+    @staticmethod
+    def count_memory():
+        all_objects = muppy.get_objects()
+        sum1 = summary.summarize(all_objects)
+        total_memory = 0
+        for item in sum1:
+            total_memory += item[2]
+        return total_memory
 
     @staticmethod
     def report(result, report_file):
@@ -43,7 +57,8 @@ class AlgorithmRunner:
                     'Fragment: %s' % result[1],
                     'Text size: %s' % result[2].seek(0, 2),
                     'Fragments found: %s' % result[3],
-                    'Time elapsed: %s' % result[4], 120*'-']
+                    'Time elapsed (sec): %s' % result[4],
+                    'Memory spent (KB): %s' % result[5], 120*'-']
         report = '\n'.join(elements)
         if report_file is not None:
             with open(report_file, 'a+') as stream:

@@ -5,8 +5,10 @@ class BruteForce(Algorithm):
     """
     BRUTE FORCE ALGORITHM
 
-    Stops at the each symbol of string and checks it for being the start of substring.
-    Then it checks next symbols, until the irrelevant symbol found, or wanted substring found.
+    Stops at the each symbol of string,
+     and checks it for being the start of substring.
+    Then it checks next symbols, until the irrelevant symbol found,
+     or wanted substring found.
 
     Speed - O(nk), where n - length of string, k - length of substring"""
     def run(self, text, template) -> int:

@@ -9,7 +9,8 @@ class Automat(Algorithm):
     Each state - is a substring of entered template
     (starting from empty string, ending on template itself).
     After that, algorithm creates a table of states.
-    It would be used to find the next state of automat, to which would go in each case.
+    It would be used to find the next state of automat,
+     to which would go in each case.
     And, finally, the string is processed through automat.
     Each symbol leads to a new state without checking next symbols.
 

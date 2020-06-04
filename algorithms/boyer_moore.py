@@ -7,8 +7,10 @@ class BoyerMoore(Algorithm):
 
     It finds all symbols in template and their rightest positions in it.
     Then, algorithm 'leaps' through the text:
-    if current position does not contain symbol from template, algorithm jumps on the length of template;
-    if it does, it firstly compares from the left and then from the right from current position.
+    if current position does not contain symbol from template,
+     algorithm jumps on the length of template;
+    if it does, it firstly compares from the left,
+     and then from the right from current position.
 
     Speed - O(n + k), where n - length of string and k - length of substring
     """

@@ -6,7 +6,8 @@ class MorrisPratt(Algorithm):
     MORRIS-PRATT ALGORITHM
 
     It counts prefix function for fragment.
-    After the launch of algorithm, it use this function to move forward on respective number of steps.
+    After the launch of algorithm,
+     it use this function to move forward on respective number of steps.
 
     Speed - O(k + n)
     """

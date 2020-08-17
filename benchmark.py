@@ -1,11 +1,10 @@
 #!usr/bin/env python3
+from algorithms import ALGORITHMS
+from pympler import muppy, summary
+from time import perf_counter
 import argparse
 import io
 import sys
-from time import perf_counter
-from pympler import muppy, summary
-
-from algorithms import ALGORITHMS
 
 
 class AlgorithmRunner:
@@ -33,10 +32,9 @@ class AlgorithmRunner:
             print('Invalid arguments!')
 
     def launch(self, algorithm, fragment, text, report_file):
-        algorithm_runner = algorithm()
         memory = self.count_memory()
         time = perf_counter()
-        result = algorithm_runner.run(text, fragment)
+        result = algorithm().run(text, fragment)
         time = perf_counter()-time
         memory = self.count_memory()-memory
         results = (algorithm, fragment, text, result, time, memory)
@@ -102,6 +100,4 @@ def parse_args():
 
 
 if __name__ == '__main__':
-    args = parse_args()
-    runner = AlgorithmRunner()
-    runner.run(args)
+    AlgorithmRunner().run(parse_args())

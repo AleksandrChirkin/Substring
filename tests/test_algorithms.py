@@ -1,8 +1,7 @@
+from algorithms import Automat, BoyerMoore, BruteForce, MorrisPratt, \
+    QuadraticHash, RabinKarp, SimpleHash, ALGORITHMS
 import io
 import unittest
-
-from algorithms import Automat, BoyerMoore, BruteForce, MorrisPratt, \
-        QuadraticHash, RabinKarp, SimpleHash, ALGORITHMS
 
 
 class AlgorithmsTest(unittest.TestCase):

@@ -11,7 +11,7 @@ class SimpleHash(Algorithm):
     After moving to the new position, code of previous symbol is removed
         and code of the next rightest position of new fragment.
     If hash of current fragment is equal to hash of template,
-     then symbolwise comparision of fragment and templated launches.
+     then symbolwise comparison of fragment and template launches.
     If, after that, algorithm found that fragment
      and template are not the same, it counts it as collision.
 
@@ -67,7 +67,7 @@ class QuadraticHash(Algorithm):
     After moving to the new position, quad of code of previous symbol is removed
      and quad of code of the next rightest position of new fragment.
     If hash of current fragment is equal to hash of template,
-     then symbolwise comparision of fragment and templated launches.
+     then symbolwise comparision of fragment and template launches.
     If, after that, algorithm found that fragment
      and template are not the same, it counts it as collision.
 
@@ -125,7 +125,7 @@ class RabinKarp(Algorithm):
      code of previous symbol in degree of the length of substring is removed
      and code of the next rightest position of new fragment is added.
     If hash of current fragment is equal to hash of template,
-     then symbolwise comparision of fragment and templated launches.
+     then symbolwise comparision of fragment and template launches.
     If, after that, algorithm found that fragment and template are not the same,
      it counts it as collision.
 

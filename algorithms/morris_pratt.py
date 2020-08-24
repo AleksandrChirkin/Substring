@@ -9,7 +9,7 @@ class MorrisPratt(Algorithm):
     After the launch of algorithm,
      it use this function to move forward on respective number of steps.
 
-    Speed - O(k + n)
+    Speed - O(k + n), where k - length of substring and n - length of string
     """
     def run(self, text, template) -> int:
         file_length = text.seek(0, 2)

@@ -14,7 +14,7 @@ class Automat(Algorithm):
     And, finally, the string is processed through automat.
     Each symbol leads to a new state without checking next symbols.
 
-    Speed of automat build-up - O(k).
+    Speed of automat build-up - O(k^2).
     Speed of check - O(n). n - length of string, k - length of substring
     """
     def run(self, text, template) -> int:

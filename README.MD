@@ -39,16 +39,3 @@ python3 benchmark.py  [-h] {automat,boyermoore,bruteforce,morrispratt,quadratich
 
 ## Подробности реализации
 При введении клча '-h' или '--help' выводится справка по соответствующему алгоритму
-
-## Покрытие тестами
-* algorithms/__init__.py                                                                     8      0   100%
-* algorithms/algorithm.py                                                                    5      1    80%
-* algorithms/automat.py                                                                     46      1    98%
-* algorithms/boyer_moore.py                                                                 35      2    94%
-* algorithms/brute_force.py                                                                 18      0   100%
-* algorithms/hashes.py                                                                     110      0   100%
-* algorithms/morris_pratt.py                                                                30      0   100%
-* tests/test_algorithms.py                                                                  66      1    98%
-
-
-

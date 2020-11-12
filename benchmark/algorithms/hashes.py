@@ -1,4 +1,4 @@
-from algorithms import Algorithm
+from benchmark import Algorithm
 
 
 class SimpleHash(Algorithm):

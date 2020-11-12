@@ -1,5 +1,6 @@
 #!usr/bin/env python3
-from algorithms import ALGORITHMS
+from benchmark import ALGORITHMS
+from pathlib import Path
 from pympler import muppy, summary
 from time import perf_counter
 import argparse
@@ -12,7 +13,7 @@ class AlgorithmRunner:
         try:
             text = None
             if arguments.input_file is not None:
-                text = open(arguments.input_file,
+                text = open(Path(arguments.input_file),
                             encoding=arguments.encoding)
             elif arguments.stdin:
                 text = io.StringIO(sys.stdin.read())
@@ -59,7 +60,7 @@ class AlgorithmRunner:
                     'Memory spent (KB): %s' % result[5], 120*'-']
         report = '\n'.join(elements)
         if report_file is not None:
-            with open(report_file, 'a+') as stream:
+            with open(Path(report_file), 'a+') as stream:
                 stream.write(report+'\n')
         else:
             print(report)
@@ -83,7 +84,7 @@ def parse_args():
                              help='Determines encoding of text stream')
         _parser.add_argument('--report_file', metavar='r', default=None,
                              help='Determines report file')
-    all_parser = subparsers.add_parser("all", help='Launches all algorithms')
+    all_parser = subparsers.add_parser("all", help='Launches all benchmark')
     all_parser.set_defaults(algorithm='all')
     all_parser.add_argument('fragment', metavar='F',
                             help='Determines wanted fragment')

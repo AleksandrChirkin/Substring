@@ -1,0 +1,3 @@
+[tool.coverage.run]
+source = ["benchmark"]
+omit = ["*/__main__.py", ".venv/"]

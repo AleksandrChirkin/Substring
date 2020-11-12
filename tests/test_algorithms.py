@@ -4,7 +4,7 @@ import sys
 import unittest
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              os.path.pardir))
-from algorithms import Automat, BoyerMoore, BruteForce, MorrisPratt, \
+from benchmark import Automat, BoyerMoore, BruteForce, MorrisPratt, \
     QuadraticHash, RabinKarp, SimpleHash, ALGORITHMS
 
 

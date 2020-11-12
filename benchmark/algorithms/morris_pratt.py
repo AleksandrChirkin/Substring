@@ -1,4 +1,5 @@
 from benchmark import Algorithm
+from typing import Any, List
 
 
 class MorrisPratt(Algorithm):
@@ -11,34 +12,34 @@ class MorrisPratt(Algorithm):
 
     Speed - O(k + n), where k - length of substring and n - length of string
     """
-    def run(self, text, template) -> int:
+    def run(self, text: Any, template: str) -> int:
         file_length = text.seek(0, 2)
         counter = 0
-        m = len(template)
-        pi = [0]
-        k = 0
-        for i in range(1, m):
-            while k > 0 and template[k] != template[i]:
-                k = pi[k-1]
-            if template[k] == template[i]:
-                k += 1
-            pi.append(k)
-        i = 0
-        while i < file_length:
-            text.seek(i)
-            j = 0
-            while (j < m and i + j < file_length and
-                    text.readline(1) == template[j]):
-                j += 1
-                text.seek(i+j)
-            if j == m:
+        temp_length = len(template)
+        leap_list = [0]
+        leap = 0
+        for temp_index in range(1, temp_length):
+            while leap > 0 and template[leap] != template[temp_index]:
+                leap = leap_list[leap-1]
+            if template[leap] == template[temp_index]:
+                leap += 1
+            leap_list.append(leap)
+        file_index = 0
+        while file_index < file_length:
+            text.seek(file_index)
+            current_shift = 0
+            while current_shift < temp_length and\
+                    file_index + current_shift < file_length and\
+                    text.readline(1) == template[current_shift]:
+                current_shift += 1
+                text.seek(file_index+current_shift)
+            if current_shift == temp_length:
                 counter += 1
-            i += self.inc(j, pi)
+            file_index += self.get_increment(current_shift, leap_list)
         return counter
 
     @staticmethod
-    def inc(j, pi) -> int:
-        if j != 0:
-            return j-pi[j-1]
-        else:
-            return 1
+    def get_increment(shift: int, leap_list: List[int]) -> int:
+        if shift != 0:
+            return shift - leap_list[shift - 1]
+        return 1

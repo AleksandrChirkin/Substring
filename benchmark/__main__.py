@@ -1,15 +1,16 @@
 #!usr/bin/env python3
+from argparse import ArgumentParser, Namespace
 from benchmark import ALGORITHMS
 from pathlib import Path
 from pympler import muppy, summary
 from time import perf_counter
-import argparse
+from typing import Any, Tuple
 import io
 import sys
 
 
 class AlgorithmRunner:
-    def run(self, arguments):
+    def run(self, arguments: Namespace) -> None:
         try:
             text = None
             if arguments.input_file is not None:
@@ -32,7 +33,8 @@ class AlgorithmRunner:
         except TypeError:
             print('Invalid arguments!')
 
-    def launch(self, algorithm, fragment, text, report_file):
+    def launch(self, algorithm: Any, fragment: str, text: Any,
+               report_file: str) -> None:
         memory = self.count_memory()
         time = perf_counter()
         result = algorithm().run(text, fragment)
@@ -42,7 +44,7 @@ class AlgorithmRunner:
         self.report(results, report_file)
 
     @staticmethod
-    def count_memory():
+    def count_memory() -> int:
         all_objects = muppy.get_objects()
         sum1 = summary.summarize(all_objects)
         total_memory = 0
@@ -51,7 +53,8 @@ class AlgorithmRunner:
         return total_memory
 
     @staticmethod
-    def report(result, report_file):
+    def report(result: Tuple[Any, str, Any, int, float, int],
+               report_file: str) -> None:
         elements = ['Algorithm: %s' % result[0].__name__,
                     'Fragment: %s' % result[1],
                     'Text size: %s' % result[2].seek(0, 2),
@@ -66,8 +69,8 @@ class AlgorithmRunner:
             print(report)
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(description='Program manager')
+def parse_args() -> Namespace:
+    parser = ArgumentParser(description='Program manager')
     subparsers = parser.add_subparsers(title='algorithm')
     for algorithm in ALGORITHMS:
         _parser = subparsers.add_parser(algorithm.__name__.lower(),

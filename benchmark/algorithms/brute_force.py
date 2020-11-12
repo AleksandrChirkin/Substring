@@ -1,4 +1,5 @@
 from benchmark import Algorithm
+from typing import Any
 
 
 class BruteForce(Algorithm):
@@ -11,19 +12,20 @@ class BruteForce(Algorithm):
      or wanted substring found.
 
     Speed - O(nk), where n - length of string, k - length of substring"""
-    def run(self, text, template) -> int:
+    def run(self, text: Any, template: str) -> int:
         file_length = text.seek(0, 2)
         counter = 0
-        for j in range(file_length):
-            text.seek(j)
-            t = j
-            m = 0
-            while t < file_length and template[m] == text.readline(1):
-                t += 1
-                text.seek(t)
-                m += 1
-                if m == len(template):
+        for file_index in range(file_length):
+            text.seek(file_index)
+            file_pointer = file_index
+            matches = 0
+            while file_pointer < file_length and\
+                    template[matches] == text.readline(1):
+                file_pointer += 1
+                text.seek(file_pointer)
+                matches += 1
+                if matches == len(template):
                     break
-            if m == len(template):
+            if matches == len(template):
                 counter += 1
         return counter

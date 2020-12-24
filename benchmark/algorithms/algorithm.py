@@ -1,8 +1,10 @@
 from abc import abstractmethod
-from typing import Any
+from io import StringIO, TextIOWrapper
+from typing import Iterable, Union
 
 
 class Algorithm:
     @abstractmethod
-    def run(self, text: Any, template: str) -> int:
-        raise NotImplementedError()
+    def run(self, text: Union[StringIO, TextIOWrapper],
+            template: str, number: int) -> Iterable[int]:
+        raise NotImplementedError

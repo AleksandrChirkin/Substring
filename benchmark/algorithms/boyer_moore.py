@@ -1,5 +1,6 @@
 from benchmark import Algorithm
-from typing import Any
+from io import StringIO, TextIOWrapper
+from typing import Iterable, Union
 
 
 class BoyerMoore(Algorithm):
@@ -15,7 +16,8 @@ class BoyerMoore(Algorithm):
 
     Speed - O(n + k), where n - length of string and k - length of substring
     """
-    def run(self, text: Any, template: str) -> int:
+    def run(self, text: Union[StringIO, TextIOWrapper],
+            template: str, number: int) -> Iterable[int]:
         file_length = text.seek(0, 2)
         counter = 0
         alphabet = []
@@ -46,6 +48,8 @@ class BoyerMoore(Algorithm):
                         break
                     matches += 1
                 if matches == len(template):
+                    yield file_index - steps
                     counter += 1
+                    if counter == number:
+                        return
                 file_index += len(template) - steps
-        return counter

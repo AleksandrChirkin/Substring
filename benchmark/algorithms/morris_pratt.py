@@ -1,5 +1,6 @@
 from benchmark import Algorithm
-from typing import Any, List
+from io import StringIO, TextIOWrapper
+from typing import Iterable, List, Union
 
 
 class MorrisPratt(Algorithm):
@@ -12,7 +13,8 @@ class MorrisPratt(Algorithm):
 
     Speed - O(k + n), where k - length of substring and n - length of string
     """
-    def run(self, text: Any, template: str) -> int:
+    def run(self, text: Union[StringIO, TextIOWrapper],
+            template: str, number: int) -> Iterable[int]:
         file_length = text.seek(0, 2)
         counter = 0
         temp_length = len(template)
@@ -34,9 +36,11 @@ class MorrisPratt(Algorithm):
                 current_shift += 1
                 text.seek(file_index+current_shift)
             if current_shift == temp_length:
+                yield file_index
                 counter += 1
+                if counter == number:
+                    return
             file_index += self.get_increment(current_shift, leap_list)
-        return counter
 
     @staticmethod
     def get_increment(shift: int, leap_list: List[int]) -> int:

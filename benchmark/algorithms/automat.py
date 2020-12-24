@@ -1,5 +1,6 @@
 from benchmark import Algorithm
-from typing import Any
+from io import StringIO, TextIOWrapper
+from typing import Iterable, Union
 
 
 class Automat(Algorithm):
@@ -18,7 +19,8 @@ class Automat(Algorithm):
     Speed of automat build-up - O(k^2).
     Speed of check - O(n). n - length of string, k - length of substring
     """
-    def run(self, text: Any, template: str) -> int:
+    def run(self, text: Union[StringIO, TextIOWrapper],
+            template: str, number: int) -> Iterable[int]:
         file_length = text.seek(0, 2)
         counter = 0
         size = len(template)
@@ -44,11 +46,13 @@ class Automat(Algorithm):
             state_number = self.get_state_number(diffs, alphabet_list, matrix,
                                                  state_number)
             if state_number == size:
+                yield index - len(template) + 1
                 counter += 1
-        return counter
+                if counter == number:
+                    return
 
     @staticmethod
-    def generate_matrix(alphabet, size, template):
+    def generate_matrix(alphabet: dict, size: int, template: str) -> list:
         matrix = []
         for _ in range(size + 1):
             matrix.append({})
@@ -62,7 +66,8 @@ class Automat(Algorithm):
         return matrix
 
     @staticmethod
-    def get_state_number(diffs, alphabet, matrix, state_number):
+    def get_state_number(diffs: int, alphabet: list, matrix: list,
+                         state_number: int) -> int:
         if diffs == len(alphabet):
             return 0
         else:

@@ -1,5 +1,6 @@
 from benchmark import Algorithm
-from typing import Any
+from io import StringIO, TextIOWrapper
+from typing import Iterable, Union
 
 
 class BruteForce(Algorithm):
@@ -12,7 +13,8 @@ class BruteForce(Algorithm):
      or wanted substring found.
 
     Speed - O(nk), where n - length of string, k - length of substring"""
-    def run(self, text: Any, template: str) -> int:
+    def run(self, text: Union[StringIO, TextIOWrapper],
+            template: str, number: int) -> Iterable[int]:
         file_length = text.seek(0, 2)
         counter = 0
         for file_index in range(file_length):
@@ -27,5 +29,7 @@ class BruteForce(Algorithm):
                 if matches == len(template):
                     break
             if matches == len(template):
+                yield file_index
                 counter += 1
-        return counter
+                if counter == number:
+                    return

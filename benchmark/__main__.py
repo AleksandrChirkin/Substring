@@ -1,72 +1,85 @@
 #!usr/bin/env python3
 from argparse import ArgumentParser, Namespace
-from benchmark import ALGORITHMS
+from benchmark import Algorithm, ALGORITHMS
+from dataclasses import dataclass
+from io import StringIO, TextIOWrapper
+from memory_profiler import memory_usage
 from pathlib import Path
-from pympler import muppy, summary
 from time import perf_counter
-from typing import Any, Tuple
-import io
+from typing import List, Type, Union
+import logging
+import numpy
 import sys
+logging.basicConfig(format=u'%(message)s', level=logging.INFO,
+                    stream=sys.stdout)
+
+
+@dataclass
+class BenchmarkResult:
+    algorithm: type
+    fragment: str
+    text: Union[StringIO, TextIOWrapper]
+    fragments_found: List[int]
+    time_elapsed: float
+    memory_spent: float
 
 
 class AlgorithmRunner:
     def run(self, arguments: Namespace) -> None:
         try:
             text = None
+            report_file = arguments.report_file
+            number = int(arguments.number)
             if arguments.input_file is not None:
-                text = open(Path(arguments.input_file),
-                            encoding=arguments.encoding)
+                text = Path(arguments.input_file)\
+                    .open(encoding=arguments.encoding)
             elif arguments.stdin:
-                text = io.StringIO(sys.stdin.read())
+                text = StringIO(sys.stdin.read())
             with text:
                 if arguments.algorithm == 'all':
                     for algorithm in ALGORITHMS:
                         self.launch(algorithm, arguments.fragment, text,
-                                    arguments.report_file)
+                                    number, report_file)
                 else:
                     self.launch(arguments.algorithm, arguments.fragment,
-                                text, arguments.report_file)
+                                text, number, report_file)
         except AttributeError:
-            print('Argument was not entered!')
+            logging.error('Attribute not found!')
         except OSError:
-            print('File not found!')
-        except TypeError:
-            print('Invalid arguments!')
+            logging.error('File not found!')
+        except TypeError as te:
+            logging.error('Inappropriate argument type!')
 
-    def launch(self, algorithm: Any, fragment: str, text: Any,
-               report_file: str) -> None:
-        memory = self.count_memory()
+    def launch(self, algorithm: Type[Algorithm], fragment: str,
+               text: Union[StringIO, TextIOWrapper],
+               number: int, report_file: str) -> None:
+        memory = numpy.mean(memory_usage())
         time = perf_counter()
-        result = algorithm().run(text, fragment)
+        alg_runner = algorithm()
+        result = [index for index in alg_runner.run(text, fragment, number)]
         time = perf_counter()-time
-        memory = self.count_memory()-memory
-        results = (algorithm, fragment, text, result, time, memory)
-        self.report(results, report_file)
+        memory_expr = (algorithm.run, (alg_runner, fragment, text, number))
+        memory = max(memory_usage(memory_expr))-memory
+        results = BenchmarkResult(algorithm, fragment, text, result, time,
+                                  memory)
+        self.report(results, number, report_file)
 
     @staticmethod
-    def count_memory() -> int:
-        all_objects = muppy.get_objects()
-        sum1 = summary.summarize(all_objects)
-        total_memory = 0
-        for item in sum1:
-            total_memory += item[2]
-        return total_memory
-
-    @staticmethod
-    def report(result: Tuple[Any, str, Any, int, float, int],
+    def report(result: BenchmarkResult, number: int,
                report_file: str) -> None:
-        elements = ['Algorithm: %s' % result[0].__name__,
-                    'Fragment: %s' % result[1],
-                    'Text size: %s' % result[2].seek(0, 2),
-                    'Fragments found: %s' % result[3],
-                    'Time elapsed (sec): %s' % result[4],
-                    'Memory spent (KB): %s' % result[5], 120*'-']
+        elements = [f'Algorithm: {result.algorithm.__name__}',
+                    f'Fragment: {result.fragment}',
+                    f'Text size: {result.text.seek(0, 2)}',
+                    f'First {number} fragments begin there: '
+                    f'{result.fragments_found}',
+                    f'Time elapsed (sec): {result.time_elapsed}',
+                    f'Memory spent (KB): {result.memory_spent}', 120*'-']
         report = '\n'.join(elements)
         if report_file is not None:
-            with open(Path(report_file), 'a+') as stream:
-                stream.write(report+'\n')
+            with Path(report_file).open('a+') as report_stream:
+                report_stream.write(report+'\n')
         else:
-            print(report)
+            logging.info(report)
 
 
 def parse_args() -> Namespace:
@@ -76,31 +89,27 @@ def parse_args() -> Namespace:
         _parser = subparsers.add_parser(algorithm.__name__.lower(),
                                         help=algorithm.__doc__)
         _parser.set_defaults(algorithm=algorithm)
-        _parser.add_argument('fragment', metavar='F',
-                             help='Determines wanted fragment')
-        group = _parser.add_mutually_exclusive_group()
-        group.add_argument('--input_file', metavar='f', default=None,
-                           help='Input file')
-        group.add_argument('--stdin', action='store_true',
-                           help='Enter text in stdin')
-        _parser.add_argument('--encoding', metavar='e', default='utf-8',
-                             help='Determines encoding of text stream')
-        _parser.add_argument('--report_file', metavar='r', default=None,
-                             help='Determines report file')
+        add_args_to_algorithm_subparser(_parser)
     all_parser = subparsers.add_parser("all", help='Launches all benchmark')
     all_parser.set_defaults(algorithm='all')
-    all_parser.add_argument('fragment', metavar='F',
-                            help='Determines wanted fragment')
-    group = all_parser.add_mutually_exclusive_group()
-    group.add_argument('--input_file', metavar='f', default=None,
+    add_args_to_algorithm_subparser(all_parser)
+    return parser.parse_args()
+
+
+def add_args_to_algorithm_subparser(parser: ArgumentParser) -> None:
+    parser.add_argument('fragment', metavar='F',
+                        help='Determines wanted fragment')
+    parser.add_argument('number', metavar='N',
+                        help='Determines number of fragments')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--input-file', metavar='f', default=None,
                        help='Input file')
     group.add_argument('--stdin', action='store_true',
                        help='Enter text in stdin')
-    all_parser.add_argument('--encoding', metavar='e', default='utf-8',
-                            help='Determines encoding of text stream')
-    all_parser.add_argument('--report_file', metavar='r', default=None,
-                            help='Determines report file')
-    return parser.parse_args()
+    parser.add_argument('--encoding', metavar='e', default='utf-8',
+                        help='Determines encoding of text stream')
+    parser.add_argument('--report-file', metavar='r', default=None,
+                        help='Determines report file')
 
 
 if __name__ == '__main__':

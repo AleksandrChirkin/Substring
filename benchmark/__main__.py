@@ -47,7 +47,7 @@ class AlgorithmRunner:
             logging.error('Attribute not found!')
         except OSError:
             logging.error('File not found!')
-        except TypeError as te:
+        except TypeError:
             logging.error('Inappropriate argument type!')
 
     def launch(self, algorithm: Type[Algorithm], fragment: str,

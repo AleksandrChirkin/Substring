@@ -74,18 +74,22 @@ class SimpleHash(Algorithm, HashAlgorithm):
             text.seek(file_index)
             file_pointer = file_index
             matches = 0
-            if file_index >= 1 and file_index + len(template) - 1 < file_length:
+            if file_index >= 1 and\
+                    file_index + len(template) - 1 < file_length:
                 text.seek(file_index + len(template) - 1)
                 new_order = ord(text.readline(1))
                 text.seek(file_index - 1)
                 old_order = ord(text.readline(1))
                 hash_sum_line = hash_sum_line + new_order - old_order
-            update_result = self.update_counter_and_collisions \
-                (HashAlgorithmData(hash_sum_line, hash_sum_template, text,
-                                   file_index, file_pointer, file_length,
-                                   template, matches))
-            if update_result != -1:
-                yield update_result
+            update = self.update_counter_and_collisions(HashAlgorithmData
+                                                        (hash_sum_line,
+                                                         hash_sum_template,
+                                                         text, file_index,
+                                                         file_pointer,
+                                                         file_length,
+                                                         template, matches))
+            if update != -1:
+                yield update
                 if self.counter == number:
                     return
 
@@ -135,12 +139,15 @@ class QuadraticHash(Algorithm, HashAlgorithm):
                 text.seek(file_index - 1)
                 old = ord(text.readline(1))
                 hash_sum_line = hash_sum_line + new * new - old * old
-            update_result = self.update_counter_and_collisions \
-                (HashAlgorithmData(hash_sum_line, hash_sum_template, text,
-                                   file_index, file_pointer, file_length,
-                                   template, matches))
-            if update_result != -1:
-                yield update_result
+            update = self.update_counter_and_collisions(HashAlgorithmData
+                                                        (hash_sum_line,
+                                                         hash_sum_template,
+                                                         text, file_index,
+                                                         file_pointer,
+                                                         file_length,
+                                                         template, matches))
+            if update != -1:
+                yield update
                 if self.counter == number:
                     return
 
@@ -193,11 +200,14 @@ class RabinKarp(Algorithm, HashAlgorithm):
                 text.seek(file_index - 1)
                 old = ord(text.readline(1))
                 hash_sum_line = (hash_sum_line - (old * multiplier)) * 2 + new
-            update_result = self.update_counter_and_collisions \
-                (HashAlgorithmData(hash_sum_line, hash_sum_template, text,
-                                   file_index, file_pointer, file_length,
-                                   template, matches))
-            if update_result != -1:
-                yield update_result
+            update = self.update_counter_and_collisions(HashAlgorithmData
+                                                        (hash_sum_line,
+                                                         hash_sum_template,
+                                                         text, file_index,
+                                                         file_pointer,
+                                                         file_length,
+                                                         template, matches))
+            if update != -1:
+                yield update
                 if self.counter == number:
                     return
